@@ -1,0 +1,26 @@
+import cv2
+import numpy as np
+img = np.zeros((512,512,3),np.int32)
+drawing = False
+ix = -1
+iy = -1
+def draw_circle(event,x,y,flags,param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        drawing = True
+        ix = x
+        iy = y
+    elif event == cv2.EVENT_MOUSEMOVE:
+        drawing == True
+        cv2.circle(img,(ix,iy),(x,y),10,(255,0,0),5)
+    elif event == cv2.EVENT_LBUTTONUP:
+        drawing = False
+        cv2.circle(img,(ix,iy),(x,y),10,(255,0,0),5)
+cv2.namedWindow(winname='AspirexCV')
+cv2.setMouseCallback('AspirexCV', draw_circle)
+while True:
+    img_normalized = cv2.normalize(img, None, 0, 255, cv2.NORM_MINMAX)
+    img = img_normalized.astype('uint8')
+    cv2.imshow('AspirexCV',img)
+    if cv2.waitKey(2) & 0xFF == 27:
+        break
+cv2.destroyAllWindows()
